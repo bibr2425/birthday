@@ -29,16 +29,16 @@
         }
         .gallery {
             display: flex;
-            gap: 16px;
             justify-content: center;
             margin-bottom: 24px;
         }
         .gallery img {
-            width: 120px;
-            height: 120px;
+            width: 180px;
+            height: 180px;
             object-fit: cover;
-            border-radius: 16px;
+            border-radius: 20px;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
         h1 {
             font-size: 1.8rem;
@@ -73,15 +73,14 @@
 <body>
     <div class="card">
         <div class="gallery">
-            <img src="marta.jpg" alt="Marta">
-            <img src="images.jpg" alt="Photo">
+            <img id="main-photo" src="images.jpg" alt="Photo">
         </div>
         <h1>🎉 З Днем Народження, Марто! 🎉</h1>
         <div class="text-box">
 У мене є сюрприз!
 
 Бажаю, щоб все в тебе було чотінько,
-міцного здоров'я, там щастя здоров'я,
+міцного здоров'я,багато деняк і тд,
 і все люді пешкі біг боб арешкі
 
 Від Максіма (Бетмен) 🦇
@@ -92,13 +91,18 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
         function celebrate() {
+            // Міняємо картинку на marta.jpg
+            const photo = document.getElementById('main-photo');
+            photo.src = 'marta.jpg';
+            photo.style.transform = 'scale(1.05)';
+
+            // Запускаємо конфеті
             confetti({
                 particleCount: 150,
                 spread: 80,
                 origin: { y: 0.6 }
             });
         }
-        window.onload = celebrate;
     </script>
 </body>
 </html>
