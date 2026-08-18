@@ -25,6 +25,10 @@ jobs:
           pip install --upgrade pip
           pip install buildozer "cython<3.0.0"
 
+      - name: Clean buildozer cache
+        run: |
+          rm -rf ~/.buildozer/android/platform/build-arm64-v8a
+
       - name: Build with Buildozer
         run: |
           buildozer -v android debug
