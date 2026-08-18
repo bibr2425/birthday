@@ -16,7 +16,7 @@ class BirthdayApp(MDApp):
         
         screen = MDScreen()
 
-        self.photo_1 = "images.jfif"  # Перша картинка (котик)
+        self.photo_1 = "images.jpg"  # Перша картинка (котик)
         self.photo_2 = "marta.jpg"     # Друга картинка (фото Марти)
 
         self.card = MDCard(
