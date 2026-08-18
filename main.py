@@ -1,7 +1,13 @@
+import os
+import sys
+from kivy.resources import resource_add_path
+
+resource_add_path(os.path.dirname(os.path.abspath(__file__)))
+
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.card import MDCard
-from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.label import MDLabel
 from kivy.uix.image import Image
 from kivy.core.window import Window
@@ -16,8 +22,8 @@ class BirthdayApp(MDApp):
         
         screen = MDScreen()
 
-        self.photo_1 = "images.jpg"  # Перша картинка (котик)
-        self.photo_2 = "marta.jpg"     # Друга картинка (фото Марти)
+        self.photo_1 = "images.jpg"
+        self.photo_2 = "marta.jpg"
 
         self.card = MDCard(
             orientation='vertical',
@@ -35,30 +41,28 @@ class BirthdayApp(MDApp):
             halign="center",
             theme_text_color="Custom",
             text_color=(1, 0.4, 0.7, 1),
-            font_style="Headline",
-            role="medium"
+            font_style="H5"
         )
 
         # 2. Зображення
         self.photo = Image(
-            source=self.photo_1,
+            source=self.photo_1 if os.path.exists(self.photo_1) else "",
             size_hint=(1, 3),
             allow_stretch=True,
             keep_ratio=False,
             nocache=True
         )
 
-        # 3. Збільшений текст привітання (Title / Headline)
+        # 3. Текст
         self.msg_label = MDLabel(
             text="У мене є сюрпріс натисни на кнопку нижче",
             halign="center",
-            font_style="Title",
-            role="large"
+            font_style="Subtitle1"
         )
 
         # 4. Кнопка
-        self.btn = MDButton(
-            MDButtonText(text="Відкрити"),
+        self.btn = MDRaisedButton(
+            text="Відкрити",
             pos_hint={"center_x": 0.5},
             on_release=self.toggle_wish
         )
@@ -72,34 +76,31 @@ class BirthdayApp(MDApp):
         return screen
 
     def toggle_wish(self, instance):
-        btn_text = self.btn.children[0]
-        
-        if btn_text.text == "Відкрити":
+        if self.btn.text == "Відкрити":
             self.photo.size_hint = (1, 3)
-            self.photo.source = self.photo_2
+            if os.path.exists(self.photo_2):
+                self.photo.source = self.photo_2
             self.photo.keep_ratio = True
             
-            # Збільшений текст привітання
-            self.msg_label.font_style = "Title"
-            self.msg_label.role = "large"
+            self.msg_label.font_style = "Subtitle1"
             self.msg_label.text = (
                 "Бажаю щоб все тебе всьо було чотінько,\n "
                 "міцного здоров'я, здійснення всіх мрій "
                 "і все люді пешкі біг боб арешкі\n\n"
-                    "Від Максіма(Бетмен)\n"
+                "Від Максіма(Бетмен)\n"
             )
             self.photo.reload()
-            btn_text.text = "Сховати"
+            self.btn.text = "Сховати"
         else:
             self.photo.size_hint = (1, 3)
-            self.photo.source = self.photo_1
+            if os.path.exists(self.photo_1):
+                self.photo.source = self.photo_1
             self.photo.keep_ratio = False
             
-            self.msg_label.font_style = "Title"
-            self.msg_label.role = "large"
+            self.msg_label.font_style = "Subtitle1"
             self.msg_label.text = "Марта у мене є сюрпріс"
             self.photo.reload()
-            btn_text.text = "Відкрити"
+            self.btn.text = "Відкрити"
 
 if __name__ == '__main__':
     BirthdayApp().run()
